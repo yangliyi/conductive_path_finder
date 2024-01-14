@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* How to get the application up and running locally
 
-Things you may want to cover:
+`docker-compose build`
 
-* Ruby version
+`docker-compose up -d`
 
-* System dependencies
+* Instructions
 
-* Configuration
+1. After successfully starting the server, user shall see the page for evaluating grids.
+2. User should type the input manually into the text box.
 
-* Database creation
+* What could be improved
 
-* Database initialization
+1. Currently the algorithm for finding conductive paths has time conplexity O(n*n). It could be improved by other approach(e.g. dfs.)
+2. More validation could be added(could be either frontend or backend or both) to stop the evaluation early when user type invalid input
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

@@ -13,7 +13,7 @@ class GridsController < ApplicationController
   end
 
   def index
-    @grids = Grid.all.order(id: :desc)
+    @grids = Grid.order(id: :desc).page(params[:page]).per(5)
   end
 
   def grid_params
