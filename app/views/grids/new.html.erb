@@ -1,9 +1,13 @@
 
-<%= form_for @grid do |f| %>
-  <div class="form-group">
-    <%= f.label :input, "Grid Input" %>
-    <%= f.text_area :input, class: "form-control" %>
-  </div>
+<div class="container">
+  <div class="text-end"><%= link_to "Back to history", grids_path, class: "btn btn-primary mt-2" %></div>
 
-  <%= f.submit "Create Grid", class: "btn btn-primary" %>
-<% end %>
+  <%= form_for @grid do |f| %>
+    <div class="form-group">
+      <%= f.label :input, "Grid Input" %>
+      <%= f.text_area :input, class: "form-control" %>
+    </div>
+
+    <%= f.submit "Create Grid", class: "btn btn-primary mt-2" %>
+  <% end %>
+</div>

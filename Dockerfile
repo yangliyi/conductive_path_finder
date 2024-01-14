@@ -8,6 +8,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 # Install the project dependencies
+RUN apt-get update -qq && apt-get install -y nodejs npm yarn
 RUN gem install bundler:2.3.13
 RUN bundle install
 

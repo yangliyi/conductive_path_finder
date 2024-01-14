@@ -21,7 +21,7 @@ class ConductivePathService
     # Find row conductive paths.
     for i in 0...n
       row_path = []
-      for j in 0...n
+      for j in 0...m
         if is_conductive(i, j, grid)
           row_path << [i, j]
         else
@@ -53,6 +53,14 @@ class ConductivePathService
   
     return { evaluation: false, conductive_paths: [] } if row_paths.empty? && col_paths.empty?
     
-    { evaluation: true, conductive_paths: row_paths + col_paths }
+    conductive_paths = row_paths + col_paths
+    
+    conductive_path_mappings = {}
+    conductive_paths.each do |path|
+      path.each do |coordinates|
+        conductive_path_mappings["#{coordinates[0]}-#{coordinates[1]}"] ||= true
+      end
+    end
+    { evaluation: true, conductive_paths: conductive_paths, conductive_path_mappings: conductive_path_mappings }
   end
 end

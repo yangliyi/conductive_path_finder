@@ -1,34 +1,47 @@
-<h1>History</h1>
+<style>
+  .conductive-path {
+    background-color: yellow;
+  }
+</style>
 
-<table>
-  <thead>
-    <tr>
-      <th>Input</th>
-      <th>Evaluation Result</th>
-      <th>Conductive Paths</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @grids.each do |grid| %>
+<div class="container">
+  <div class="text-end"><%= link_to "Create grid", new_grid_path, class: "btn btn-primary mt-2" %></div>
+
+  <h2>History</h2>
+
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
       <tr>
-        <td><p><%= simple_format grid.input %></p></td>
-        <td><%= grid.result['evaluation'] ? 'Yes' : 'No' %></td>
-        <td>
-          <% if grid.result['conductive_paths'].present? %>
-            <ul>
-              <% grid.result['conductive_paths'].each do |path| %>
-                <p>
-                <% path.each do |coordinates| %>
-                  <%= coordinates %>
-                <% end %>
-                </p>
-              <% end %>
-            </ul>
-          <% else %>
-            No conductive paths
-          <% end %>
-        </td>
+        <th>Executed At</th>
+        <th>Evaluation Result</th>
+        <th>Input</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @grids.each do |grid| %>
+        <tr>
+          <td><%= grid.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          <td><%= grid.result['evaluation'] ? "YES (#{grid.result['conductive_paths'].size})" : 'NO' %></td>
+          <td>
+            <div class="grid-input">
+              <% formatted_grid = grid.result['formatted_grid'] %>
+              <% if formatted_grid.present? %>
+                <% grid.result['formatted_grid'].each_with_index do |row, row_index| %>
+                  <div class="grid-row">
+                    <% row.each_with_index do |element, col_index| %>
+                      <% if grid.result['conductive_paths'].present? && grid.result['conductive_path_mappings']["#{row_index}-#{col_index}"] %>
+                        <span class="conductive-path"><%= element %></span>
+                      <% else %>
+                        <%= element %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
