@@ -6,60 +6,53 @@ class ConductivePathService
   end
 
   def find
-    return [false,[]] if grid.empty?
+    return { evaluation: false, conductive_paths: [] } if grid.empty?
   
-    n = grid.length
-    m = grid[0].length
+    n = grid.length  # Get the number of rows in the grid.
+    m = grid[0].length  # Get the number of columns in the grid.
+    row_paths = []  # Initialize an array to store row conductive paths.
+    col_paths = []  # Initialize an array to store column conductive paths.
   
-    # Create a visited array to keep track of visited cells
-    visited = Array.new(n) { Array.new(m, false) }
-  
-    # Helper function to check if a cell is valid and contains '1'
-    def is_valid(x, y, grid, visited)
-      x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] == '1' && !visited[x][y]
+    # Helper function to check if a cell is part of a conductive path.
+    def is_conductive(x, y, grid)
+      x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] == '1'
     end
   
-    # Helper function to check if a cell is on the top or bottom row
-    def is_top_or_bottom(x, n)
-      x == 0 || x == n - 1
-    end
-  
-    # DFS function to explore connected '1' cells and return their indices
-    def dfs(x, y, grid, visited, path)
-      visited[x][y] = true
-      path << [x, y] # Add the current cell's indices to the path
-  
-      # Check adjacent cells (up, down, left, right)
-      dx = [-1, 1, 0, 0]
-      dy = [0, 0, -1, 1]
-  
-      dx.length.times do |i|
-        new_x = x + dx[i]
-        new_y = y + dy[i]
-  
-        if is_valid(new_x, new_y, grid, visited)
-          dfs(new_x, new_y, grid, visited, path)
+    # Find row conductive paths.
+    for i in 0...n
+      row_path = []
+      for j in 0...n
+        if is_conductive(i, j, grid)
+          row_path << [i, j]
+        else
+          if row_path.length == n
+            row_paths << row_path
+          end
+          row_path = []
         end
       end
+  
+      row_paths << row_path if row_path.length == n
     end
   
-    # Start DFS from the top row
-    top_row = 0
-    bottom_row = n - 1
-    conductive_path_found = false
-    path = []
-  
+    # Find column conductive paths.
     for j in 0...m
-      if grid[top_row][j] == '1' && !visited[top_row][j]
-        dfs(top_row, j, grid, visited, path)
-        conductive_path_found = true
+      col_path = []
+      for i in 0...n
+        if is_conductive(i, j, grid)
+          col_path << [i, j]
+        else
+          if col_path.length == m
+            col_paths << col_path
+          end
+          col_path = []
+        end
       end
+      col_paths << col_path if col_path.length == m
     end
   
-    if conductive_path_found
-      return [true, path]
-    else
-      return [false, []]
-    end
+    return { evaluation: false, conductive_paths: [] } if row_paths.empty? && col_paths.empty?
+    
+    { evaluation: true, conductive_paths: row_paths + col_paths }
   end
 end

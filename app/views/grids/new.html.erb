@@ -1,0 +1,9 @@
+
+<%= form_for @grid do |f| %>
+  <div class="form-group">
+    <%= f.label :input, "Grid Input" %>
+    <%= f.text_area :input, class: "form-control" %>
+  </div>
+
+  <%= f.submit "Create Grid", class: "btn btn-primary" %>
+<% end %>

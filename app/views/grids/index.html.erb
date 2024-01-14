@@ -1,0 +1,34 @@
+<h1>History</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Input</th>
+      <th>Evaluation Result</th>
+      <th>Conductive Paths</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @grids.each do |grid| %>
+      <tr>
+        <td><p><%= simple_format grid.input %></p></td>
+        <td><%= grid.result['evaluation'] ? 'Yes' : 'No' %></td>
+        <td>
+          <% if grid.result['conductive_paths'].present? %>
+            <ul>
+              <% grid.result['conductive_paths'].each do |path| %>
+                <p>
+                <% path.each do |coordinates| %>
+                  <%= coordinates %>
+                <% end %>
+                </p>
+              <% end %>
+            </ul>
+          <% else %>
+            No conductive paths
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

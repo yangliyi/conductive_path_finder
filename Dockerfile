@@ -1,5 +1,5 @@
 # Dockerfile
-FROM ruby:2.7.0
+FROM ruby:3.0
 
 # Set the working directory in the container
 WORKDIR /app
